@@ -11,36 +11,42 @@ import zipfile
 apk_file_name = "/Users/superhaha/Desktop/apk/templateisdk-ym_isdk-release.apk "  # 反编译的apk文件
 channel_path = "/Users/superhaha/Desktop/huawei/华为/channel.txt"  # 渠道channel文件路径
 package_path = "/Users/superhaha/Desktop/huawei"  # 计费文件路径
-apk_path = os.path.dirname(apk_file_name)
+apk_path = os.path.dirname(apk_file_name)  # 反编译apk文件目录名称
 apk_dirname = os.path.splitext(os.path.basename(apk_file_name))[0]  # 获得反编译apk文件目录名称
-channel_txt = channel_path.replace(" ", "")
-# package_dirname = package_path.replace(" ", "") and package_path.split("/")[-1]
-copyfile_src_path = package_path.replace(" ", "")  # 处理过后拷贝计费文件路径
-
-next_dirs = ""  # 计费文件目录的下一层目录
+apk_extension = os.path.splitext(os.path.basename(apk_file_name))[1]  # 获得apk文件后缀
+channel_txt = channel_path.replace(" ", "")  # 格式化channel.txt路径,去除空格
+copyfile_src_path = package_path.replace(" ", "")  # 格式化拷贝计费文件路径,去除空格
+next_dirs_list = list()  # 获取到多个渠道目录
 for root, dirs, files in os.walk(copyfile_src_path):
     for name in dirs:
-        next_dirs = os.path.join(root, name)
-        print(next_dirs)
+        next_dirs = os.path.join(root, name)  # next_dirs渠道计费文件目录的下一层目录,即第二层索引目录
+        next_dirs_list.append(name)
+        print(next_dirs_list)
 
-package_dirname = next_dirs.replace(" ", "")
-package_dirname = package_dirname.split("/")[-1]
 channel_list = list()  # channel list 表
 copyfile_dest_path = os.path.join(os.getcwd(), apk_dirname)  # 拷贝计费文件目标目录
 log_file_path = os.path.join(os.getcwd(), "log")  # 解压联通计费文件目录
 
 file_list = os.listdir(next_dirs)  # 计费文件目录文件列表
-
-mm_channel_value = ""  # 获取到mm渠道号
-egame_channel_value = ""  # 获取到电信渠道号
-package_name = ""  # 获取到包名
-versioncode_value = ""  # 获取到versioncode
-versionname_value = ""  # 获取到versionname
-channel_num = ""  # 获取到渠道号
+package_dirname = ""
+mm_channel_value = ""  # mm渠道号
+egame_channel_value = ""  # 电信渠道号
+package_name = ""  # 包名
+versioncode_value = ""  # versioncode
+versionname_value = ""  # versionname
+channel_num = ""  # 渠道号
 sign_file = ""  # 签名文件
 sign_pwd = ""  # 签名密码
 sign_alias = ""  # 签名文件别名
-channel_name = ""  # 获取到渠道名
+channel_name = ""  # 渠道名
+
+print("os.getwcd:" + os.getcwd())
+print("apkpath:" + apk_path)
+print("apk_dirname:" + apk_dirname)
+print("apk_extension:" + apk_extension)
+print("copyfile_src_path:" + copyfile_src_path)
+print("copyfile_dest_path:" + copyfile_dest_path)
+print("log_file_path:" + log_file_path)
 
 
 def decompilation(apk_file_name):
@@ -79,7 +85,7 @@ def getchannel():
                     channel_name = outresult[11]
 
         if package_dirname == "":
-            print("找不到匹配")
+            print("找不到渠道匹配")
         else:
             print("MM渠道号:" + mm_channel_value)
             print("电信渠道号:" + egame_channel_value)
@@ -162,15 +168,29 @@ def modifymanifest():
     root.setAttribute("package", package_name)
     f = open(copyfile_dest_path + "/AndroidManifest.xml", 'w')
     dom.writexml(f, indent='', addindent='', newl='', encoding='UTF-8')
-    pass
+
+
+def move_apk():
+    for apk_file in os.listdir(os.getcwd()):
+        if(apk_file.endswith(".apk")):
+            shutil.move(apk_file,copyfile_src_path)
+    shutil.rmtree(copyfile_dest_path)
+
 
 
 if __name__ == "__main__":
     decompilation(apk_file_name)
-    getchannel()
-    jieyafile()
-    copyfiles()
-    modifyversion()
-    modifymanifest()
-    os.system("apktool b "+copyfile_dest_path)
-    os.system("jarsigner -verbose -keystore /Users/superhaha/Desktop/alias-111111.keystore -signedjar template_sign.apk "+copyfile_dest_path+"/dist"+"/templateisdk-ym_isdk-release.apk "+"alias")
+    for next_dir_name in next_dirs_list:
+        package_dirname = next_dir_name  # package_dirname 计费文件目录名
+        getchannel()
+        jieyafile()
+        copyfiles()
+        modifyversion()
+        modifymanifest()
+        os.system("apktool b " + copyfile_dest_path)
+        apk_sign_command = "jarsigner -verbose -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + apk_extension + copyfile_dest_path + "/dist/" + apk_dirname + apk_extension + sign_alias
+        os.system(apk_sign_command)
+    move_apk()
+
+
+

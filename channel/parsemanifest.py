@@ -1,6 +1,4 @@
-from xml.etree.ElementTree import ElementTree, Element
 import xml.dom.minidom
-import xml.etree.ElementTree as ET
 
 file_name = "/Users/superhaha/Desktop/huawei/AndroidManifest.xml"
 
