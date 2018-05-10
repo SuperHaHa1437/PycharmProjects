@@ -1,8 +1,8 @@
 import re
 
-file = '/Users/superhaha/Desktop/huawei/华为/apktool.yml'
-new_versionCode = "  versionCode: '" + '100' + "'"
-new_versionName = "  versionName:" + " 100.112.112"
+file = '/Users/superhaha/Desktop/huawei/apktool.yml'
+new_versionCode = "  versionCode: '" + '4' + "'"
+new_versionName = "  versionName: '" + '1.3' + "'"
 
 with open(file, 'r+')as f:
     file_data = ''
