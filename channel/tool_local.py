@@ -7,25 +7,32 @@ import shutil
 import zipfile
 import codecs
 
-apk_file_name = ""  # 反编译的apk文件
-channel_path = ""  # 渠道channel文件路径
-package_path = ""  # 计费文件路径
-gameversion = ""  # 游戏版本
-apk_path = ""
-channel_txt = ""
-channel_list = list()  # channel list 表
-file_list = ""
-package_dirname = ""
-next_dirs = ""
-copyfile_src_path = ""
-copyfile_dest_path = ""
-log_file_path = ""
+# apk_file_name = input("请放入母包:")  # 反编译的apk文件
+# channel_path = input("请放入渠道channel.txt:")  # 渠道channel文件路径
+# package_path = input("请放入要打包的渠道文件夹:")  # 计费文件路径
 # gameversion = input("请确认游戏版本 1-封测 2-发行:")
-# apk_file_name = "/Users/superhaha/Desktop/apk/templateisdk-ym_isdk_oppo-release.apk "  # 反编译的apk文件
-# channel_path = "/Users/superhaha/Desktop/normal/channel.txt"  # 渠道channel文件路径
-# package_path = "/Users/superhaha/Desktop/normal"  # 计费文件路径
+apk_file_name = "/Users/superhaha/Desktop/apk/templateisdk-ym_isdk-release.apk "  # 反编译的apk文件
+channel_path = "/Users/superhaha/Desktop/normal/channel.txt"  # 渠道channel文件路径
+package_path = "/Users/superhaha/Desktop/normal"  # 计费文件路径
+gameversion = "1"
+apk_path = os.path.dirname(apk_file_name)  # 反编译apk文件目录名称
+apk_dirname = os.path.splitext(os.path.basename(apk_file_name))[0]  # 获得反编译apk文件目录名称
+apk_extension = os.path.splitext(os.path.basename(apk_file_name))[1]  # 获得apk文件后缀
+channel_txt = channel_path.replace(" ", "")  # 格式化channel.txt路径,去除空格
+copyfile_src_path = package_path.replace(" ", "")  # 格式化拷贝计费文件路径,去除空格
 
+next_dirs_list = list()  # 获取到多个渠道目录
+for root, dirs, files in os.walk(copyfile_src_path):
+    for name in dirs:
+        next_dirs = os.path.join(root, name)  # next_dirs渠道计费文件目录的下一层目录,即第二层索引目录
+        next_dirs_list.append(name)
+        print(next_dirs_list)
 
+channel_list = list()  # channel list 表
+copyfile_dest_path = os.path.join(os.getcwd(), apk_dirname)  # 拷贝计费文件目标目录
+log_file_path = os.path.join(os.getcwd(), "log")  # 解压联通计费文件目录
+
+file_list = os.listdir(next_dirs)  # 计费文件目录文件列表
 
 mm_channel_value = ""  # mm渠道号
 egame_channel_value = ""  # 电信渠道号
@@ -39,79 +46,25 @@ sign_alias = ""  # 签名文件别名
 channel_name = ""  # 渠道名
 jinshan_channel = ""  # 金山渠道号
 
-
-def readparameter(input_parameter):
-    para_list = list()  # 参数列表
-    global apk_path, channel_txt, channel_list, file_list, apk_file_name, channel_path, package_path, gameversion, package_dirname, next_dirs, copyfile_dest_path, copyfile_src_path, log_file_path
-    with open(input_parameter, "r") as f:
-        for line in f.readlines():
-            line = line.strip()
-            para_list.append(line)
-        apk_file_name = para_list[0]
-        channel_path = para_list[1]
-        package_path = para_list[2]
-        gameversion = para_list[3]
-
-    apk_path = os.path.dirname(apk_file_name)  # 反编译apk文件目录名称
-    apk_dirname = os.path.splitext(os.path.basename(apk_file_name))[0]  # 获得反编译apk文件目录名称
-    apk_extension = os.path.splitext(os.path.basename(apk_file_name))[1]  # 获得apk文件后缀
-    channel_txt = channel_path.replace(" ", "")  # 格式化channel.txt路径,去除空格
-    copyfile_src_path = package_path.replace(" ", "")  # 格式化拷贝计费文件路径,去除空格
-    next_dirs_list = list()  # 获取到多个渠道目录
-    for root, dirs, files in os.walk(copyfile_src_path):
-        for name in dirs:
-            next_dirs = os.path.join(root, name)  # next_dirs渠道计费文件目录的下一层目录,即第二层索引目录
-            next_dirs_list.append(name)
-            print(next_dirs_list)
-    copyfile_dest_path = os.path.join(os.getcwd(), apk_dirname)  # 拷贝计费文件目标目录
-    log_file_path = os.path.join(os.getcwd(), "log")  # 解压联通计费文件目录
-    file_list = os.listdir(next_dirs)  # 计费文件目录文件列表
-    print("os.getwcd:" + os.getcwd())
-    print("apkpath:" + apk_path)
-    print("apk_dirname:" + apk_dirname)
-    print("apk_extension:" + apk_extension)
-    print("copyfile_src_path:" + copyfile_src_path)
-    print("copyfile_dest_path:" + copyfile_dest_path)
-    print("log_file_path:" + log_file_path)
-    print("gameversion:" + gameversion)
-    if gameversion == "2":
-        print("执行发行打包")
-        decompilation(apk_file_name)
-        for next_dir_name in next_dirs_list:
-            package_dirname = next_dir_name  # package_dirname 计费文件目录名
-            getchannel()
-            jieyafile()
-            copyfiles()
-            modifyversion()
-            modifymanifest()
-            os.system("apktool b " + copyfile_dest_path)
-            apk_sign_command = "jarsigner -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + ".apk " + copyfile_dest_path + "/dist/" + apk_dirname + ".apk " + sign_alias + " -storepass " + sign_pwd
-            os.system(apk_sign_command)
-            print(apk_sign_command)
-        move_apk()
-    else:
-        print("执行封测打包")
-        decompilation(apk_file_name)
-        for next_dir_name in next_dirs_list:
-            package_dirname = next_dir_name  # package_dirname 计费文件目录名
-            getchannel()
-            modifyversion()
-            modifymanifest()
-            os.system("apktool b " + copyfile_dest_path)
-            apk_sign_command = "jarsigner -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + ".apk " + copyfile_dest_path + "/dist/" + apk_dirname + ".apk " + sign_alias + " -storepass " + sign_pwd
-            os.system(apk_sign_command)
-        move_apk()
+print("os.getwcd:" + os.getcwd())
+print("apkpath:" + apk_path)
+print("apk_dirname:" + apk_dirname)
+print("apk_extension:" + apk_extension)
+print("copyfile_src_path:" + copyfile_src_path)
+print("copyfile_dest_path:" + copyfile_dest_path)
+print("log_file_path:" + log_file_path)
+print("gameversion:" + gameversion)
+print("next_dirs:" + next_dirs)
 
 
-def decompilation(apk_file):
+def decompilation(apk_file_name):
     print("执行反编译")
     for root, dirs, files in os.walk(apk_path):
         for file in files:
-            apk_file = os.path.join(root, file)
-            if apk_file.endswith(".apk"):
-                apktool_command = "apktool d -f " + apk_file  # 反编译apk并强制删除之前的文件夹
+            apk_file_name = os.path.join(root, file)
+            if apk_file_name.endswith(".apk"):
+                apktool_command = "apktool d -f " + apk_file_name  # 反编译apk并强制删除之前的文件夹
                 os.system(apktool_command)
-                print(apktool_command)
 
 
 def getchannel():
@@ -212,7 +165,7 @@ def modifymanifest():
     metalist = root.getElementsByTagName("meta-data")
     for item in metalist:
         meta_data_value = item.getAttribute("android:name")
-        # print(meta_data_value)
+    #     # print(meta_data_value)
         if meta_data_value == "UMENG_CHANNEL":
             item.setAttribute("android:value", channel_name)
             print("修改友盟参数")
@@ -233,7 +186,7 @@ def modifymanifest():
             print("修改电信渠道号")
         else:
             pass
-            # print("没有普通参数被替换")
+    #         # print("没有普通参数被替换")
 
     root.setAttribute("package", package_name)
 
@@ -281,32 +234,31 @@ def move_apk():
 
 
 if __name__ == "__main__":
-    readparameter(sys.argv[1])
-    # if gameversion == "2":
-    #     print("执行发行打包")
-    # decompilation(apk_file_name)
-    # os.system("iconv -f gbk -t utf-8 " + copyfile_dest_path + "/AndroidManifest.xml" + "> " + os.getcwd() + "/AndroidManifest.xml")
-    # shutil.copy(os.getcwd() + "/AndroidManifest.xml",copyfile_dest_path)
-    # for next_dir_name in next_dirs_list:
-    #     package_dirname = next_dir_name  # package_dirname 计费文件目录名
-    #     getchannel()
-    #     jieyafile()
-    #     copyfiles()
-    #     modifyversion()
-    #     modifymanifest()
-    #     os.system("apktool b " + copyfile_dest_path)
-    #     apk_sign_command = "jarsigner -verbose -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + apk_extension + copyfile_dest_path + "/dist/" + apk_dirname + apk_extension + sign_alias
-    #     os.system(apk_sign_command)
-    # move_apk()
-    # else:
-    #     print("执行封测打包")
-    #     decompilation(apk_file_name)
-    #     for next_dir_name in next_dirs_list:
-    #         package_dirname = next_dir_name  # package_dirname 计费文件目录名
-    #         getchannel()
-    #         modifyversion()
-    #         modifymanifest()
-    #         os.system("apktool b " + copyfile_dest_path)
-    #         apk_sign_command = "jarsigner -verbose -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + apk_extension + copyfile_dest_path + "/dist/" + apk_dirname + apk_extension + sign_alias
-    #         os.system(apk_sign_command)
-    #     move_apk()
+    if gameversion == "2":
+        print("执行发行打包")
+        decompilation(apk_file_name)
+        # os.system("iconv -f gbk -t utf-8 " + copyfile_dest_path + "/AndroidManifest.xml" + "> " + os.getcwd() + "/AndroidManifest.xml")
+        # shutil.copy(os.getcwd() + "/AndroidManifest.xml",copyfile_dest_path)
+        for next_dir_name in next_dirs_list:
+            package_dirname = next_dir_name  # package_dirname 计费文件目录名
+            getchannel()
+            jieyafile()
+            copyfiles()
+            modifyversion()
+            modifymanifest()
+            os.system("apktool b " + copyfile_dest_path)
+            apk_sign_command = "jarsigner -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + apk_extension + copyfile_dest_path + "/dist/" + apk_dirname + apk_extension + sign_alias + " -storepass 111111"
+            os.system(apk_sign_command)
+        move_apk()
+    else:
+        print("执行封测打包")
+        decompilation(apk_file_name)
+        for next_dir_name in next_dirs_list:
+            package_dirname = next_dir_name  # package_dirname 计费文件目录名
+            getchannel()
+            # modifyversion()
+            modifymanifest()
+            os.system("apktool b " + copyfile_dest_path)
+            apk_sign_command = "jarsigner -keystore " + copyfile_src_path + "/" + sign_file + " -signedjar " + apk_dirname + "_" + package_dirname + apk_extension + copyfile_dest_path + "/dist/" + apk_dirname + apk_extension + sign_alias + " -storepass 111111"
+            os.system(apk_sign_command)
+        move_apk()

@@ -1,26 +1,33 @@
 import xml.dom.minidom
+import codecs
+import os
+import shutil
 
-file_name = "/Users/superhaha/Desktop/huawei/AndroidManifest.xml"
+# file_name = "/Users/superhaha/Desktop/huawei/AndroidManifest.xml"
+# file_name = "/Users/superhaha/Desktop/apk/AndroidManifest.xml"
+file_name = input("xml")
+# file_name = "/Users/superhaha/Desktop/AndroidManifest.xml"
+os.system("iconv -f gbk -t utf-8 " + file_name + "> " + os.getcwd() + "/AndroidManifest.xml")
+shutil.copy(os.getcwd() + "/AndroidManifest.xml", "/Users/superhaha/Desktop")
 
 dom = xml.dom.minidom.parse(file_name)
 root = dom.documentElement
 package = "com.ym"
 metalist = root.getElementsByTagName("meta-data")
-print(metalist)
 for item in metalist:
     meta_data_value = item.getAttribute("android:name")
-    # print(meta_data_value)
+    print(meta_data_value)
     if meta_data_value == "com.snowfish.appid":
         item.removeAttribute("android:name")
         item.removeAttribute("android:value")
-        if meta_data_value == "UMENG_CHANNEL":
-          item.setAttribute("android:value", "小康")
-        elif meta_data_value == "Countly_ChID":
-          item.setAttribute("android:value", "顺德区")
-        elif meta_data_value == "EGAME_CHANNEL":
-          item.setAttribute("android:value", "12345678")
-        else:
-          print("没有普通参数被替换")
+    elif meta_data_value == "UMENG_CHANNEL":
+        item.setAttribute("android:value", "了工程款")
+    elif meta_data_value == "Countly_ChID":
+        item.setAttribute("android:value", "安琪儿")
+    elif meta_data_value == "EGAME_CHANNEL":
+        item.setAttribute("android:value", "12345678")
+    else:
+        print("没有普通参数被替换")
 #
 root.setAttribute("package", "com.ym.xingppp")
 
@@ -48,7 +55,7 @@ for item in providetlist:
     else:
         print("没有信鸽provider参数被更改")
 
-f = open(file_name, 'w')
+f = codecs.open(file_name, 'w', 'utf-8')
 dom.writexml(f, indent='', addindent='\t', newl='', encoding='UTF-8')
 
 
