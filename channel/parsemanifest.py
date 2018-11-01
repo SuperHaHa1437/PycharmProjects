@@ -1,3 +1,4 @@
+# -*- coding:UTF-8 -*-
 import xml.dom.minidom
 import codecs
 import os

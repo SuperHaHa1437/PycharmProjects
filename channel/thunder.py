@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # requires XCode
+# -*- coding:UTF-8 -*-
 
 import subprocess, sys, os, hashlib, plistlib
 

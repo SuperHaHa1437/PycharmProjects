@@ -26,7 +26,6 @@ log_file_path = ""
 # package_path = "/Users/superhaha/Desktop/normal"  # 计费文件路径
 
 
-
 mm_channel_value = ""  # mm渠道号
 egame_channel_value = ""  # 电信渠道号
 package_name = ""  # 包名
@@ -74,6 +73,7 @@ def readparameter(input_parameter):
     print("copyfile_dest_path:" + copyfile_dest_path)
     print("log_file_path:" + log_file_path)
     print("gameversion:" + gameversion)
+    # if gameversion == "publish":
     if gameversion == "2":
         print("执行发行打包")
         decompilation(apk_file_name)
@@ -105,13 +105,13 @@ def readparameter(input_parameter):
 
 def decompilation(apk_file):
     print("执行反编译")
-    for root, dirs, files in os.walk(apk_path):
-        for file in files:
-            apk_file = os.path.join(root, file)
-            if apk_file.endswith(".apk"):
-                apktool_command = "apktool d -f " + apk_file  # 反编译apk并强制删除之前的文件夹
-                os.system(apktool_command)
-                print(apktool_command)
+    # for root, dirs, files in os.walk(apk_path):
+    #     for file in files:
+    #         apk_file = os.path.join(root, file)
+    #         if apk_file.endswith(".apk"):
+    apktool_command = "apktool d -f " + apk_file  # 反编译apk并强制删除之前的文件夹
+    os.system(apktool_command)
+    print(apktool_command)
 
 
 def getchannel():

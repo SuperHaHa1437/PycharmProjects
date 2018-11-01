@@ -1,3 +1,4 @@
+# -*- coding:UTF-8 -*-
 import re
 
 file = '/Users/superhaha/Desktop/huawei/apktool.yml'

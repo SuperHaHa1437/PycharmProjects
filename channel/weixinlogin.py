@@ -1,3 +1,4 @@
+# -*- coding:UTF-8 -*-
 import os
 import time
 
@@ -42,6 +43,12 @@ def login():
         time.sleep(1)
         os.system("adb shell input text  ym12345678")
         os.system("adb shell input tap 500 1100")
+    elif num == "7":
+        os.system("adb shell input text  18148936673")
+        os.system("adb shell input tap 500 1100")
+        time.sleep(1)
+        os.system("adb shell input text  ym12345678")
+        os.system("adb shell input tap 500 1100")
 
 
 def exit():
@@ -60,7 +67,7 @@ if __name__ == "__main__":
     elif choice == "6":
         print("只登录")
         os.system("adb shell input tap 780 1850")  # 更多
-        os.system("adb shell input tap 500 1440")  # 登陆其他账号
+        os.system("adb shell input tap 500 1540")  # 登陆其他账号
         login()
     else:
         print("退出并登录")
@@ -68,5 +75,5 @@ if __name__ == "__main__":
         time.sleep(9)
         print("睡眠结束")
         os.system("adb shell input tap 780 1850")  # 更多
-        os.system("adb shell input tap 500 1440")  # 登陆其他账号
+        os.system("adb shell input tap 500 1540")  # 登陆其他账号
         login()
