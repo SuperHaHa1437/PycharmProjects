@@ -6,7 +6,8 @@ class SpiderPuTi():
     url = "http://www.theqi.com/buddhism/GL1/data/s02a.html"
 
     root_pattern = '<p class=b>([\s\S]*?)</p>'
-    original_pattern = '【[\s\S]{0,}】'
+    # root_pattern = '<p class=b>(.*)</p>'
+    original_pattern = '【(.*)】'
 
     def __fetch_content(self):
         r = request.urlopen(SpiderPuTi.url)

@@ -5,8 +5,8 @@ import re
 
 class SpiderPuTiBS():
     url = "http://www.theqi.com/buddhism/GL1/data/s22b.html"
-    root_pattern = '<p class=b>([\s\S]*?)</p>'
-    original_pattern = '【[\s\S]{0,}】'
+    # original_pattern = '【[\s\S]{0,}】'
+    original_pattern = '【(.*)】'
 
     def __fetch_content(self):
         r = request.urlopen(SpiderPuTiBS.url)
@@ -28,9 +28,9 @@ class SpiderPuTiBS():
         return anchors
 
     def __show(self, anchors):
-        f = open("/Users/superhaha/Desktop/origin_text.txt", 'w', encoding='utf-8')
+        # f = open("/Users/superhaha/Desktop/origin_text.txt", 'w', encoding='utf-8')
         for anchor in anchors:
-            f.write(anchor[0] + "\n")
+            # f.write(anchor[0] + "\n")
             print(anchor)
 
     def go(self):
