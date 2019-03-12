@@ -12,8 +12,8 @@ class Student():
     age = 0
 
     def __init__(self, name, age):
-        self.name = name
-        self.age = age
+        name = name
+        age = age
         self.__score = 0
         # print(self.__class__.name)
         # print(self.__class__.age)
@@ -30,6 +30,6 @@ class Student():
 
 
 student = Student("zhang", 12)
-# print(student.name, student.age)
-student.marking(99)
-print(student._Student__score)
+print(student.name, student.age)
+# student.marking(99)
+# print(student._Student__score)
