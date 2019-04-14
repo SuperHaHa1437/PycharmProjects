@@ -4,4 +4,4 @@ Created by 张 on 2019/1/18
 """
 __author__ = '张'
 
-DEBUG = True
+DEBUG = False
