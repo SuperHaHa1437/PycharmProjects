@@ -1,32 +1,124 @@
-channel/.idea/channel.iml
-channel/.idea/misc.xml
-channel/.idea/modules.xml
-channel/.idea/workspace.xml
-channel/.idea/dictionaries/superhaha.xml
-channel/.idea/inspectionProfiles/profiles_settings.xml
-channel.cpython-36.pyc
-practice/.idea/misc.xml
-practice/.idea/modules.xml
-practice/.idea/practice.iml
-practice/.idea/vcs.xml
-practice/.idea/workspace.xml
-practice/.idea/inspectionProfiles/profiles_settings.xml
-practice/__pycache__/__init__.cpython-36.pyc
-practice/__pycache__/c2.cpython-36.pyc
-weixinlogin_update.py
-weixinlogin.py
-mysql_test.py
-.idea/misc.xml
-.idea/modules.xml
-.idea/PycharmProjects.iml
-.idea/vcs.xml
-.idea/workspace.xml
-fisherbook/.idea/fisherbook.iml
-fisherbook/.idea/misc.xml
-fisherbook/.idea/modules.xml
-fisherbook/.idea/vcs.xml
-fisherbook/.idea/workspace.xml
-config.cpython-36.pyc
-fisherbook/Pipfile
-fisherbook/Pipfile.lock
-itchat.pkl
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.idea/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don’t work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
