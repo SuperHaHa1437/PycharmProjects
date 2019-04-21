@@ -1,14 +1,13 @@
 """
-Created by 张 on 2019/4/9 
+Created by 张 on 2019/4/21 
 """
 from flask import Flask
 
 __author__ = '张'
 
-
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config')  # 载入配置文件,通过此种方式导入配置文件,配置参数必须为全大写字母
+    app.config.from_object('config')
     register_blueprint(app)
     return app
 

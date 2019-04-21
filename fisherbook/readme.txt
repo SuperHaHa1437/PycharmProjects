@@ -23,3 +23,5 @@ def hello():
 5.视图函数是web项目的入口或者起点.
 
 6.测试API  http://t.yushu.im/v2/book/isbn/9787501524044
+          http://localhost:5000/book/search?q=9787501524044&page=1
+          http://localhost:81/book/search/9787501524044/1
