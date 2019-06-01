@@ -4,7 +4,7 @@ import re
 
 
 class SpiderPuTiBS():
-    url = 'http://www.theqi.com/buddhism/GL1/data/s24b.html'
+    url = 'http://www.theqi.com/buddhism/GL1/data/s25b.html'
 
     # 匹配括号内的文字
     original_pattern = '【.*】'

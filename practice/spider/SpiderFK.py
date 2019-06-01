@@ -28,4 +28,6 @@ class SpiderFK():
 
 
 spiderfk = SpiderFK()
-spiderfk.down('https://video2.fkvideo.cc/418cfc27a5724825923a5704d8ccc752.mp4', '/Users/superhaha/Downloads/a.mp4')
+
+spiderfk.down('https://www.fk5778.com/video/5563', '/Users/superhaha/Downloads/a.mp4')
+# spiderfk.down('https://video2.fkvideo.cc/418cfc27a5724825923a5704d8ccc752.mp4', '/Users/superhaha/Downloads/a.mp4')

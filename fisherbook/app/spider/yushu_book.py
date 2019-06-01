@@ -3,7 +3,7 @@ Created by 张 on 2019/3/27
 """
 __author__ = '张'
 
-from httper import HTTP
+from app.libs.httper import HTTP
 from flask import current_app
 
 

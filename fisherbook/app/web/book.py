@@ -2,8 +2,8 @@
 Created by 张 on 2019/3/29
 """
 from flask import jsonify, request
-from helper import is_isbn_or_key
-from yushu_book import YuShuBook
+from app.libs.helper import is_isbn_or_key
+from app.spider.yushu_book import YuShuBook
 from app.forms.book import SearchForm
 from . import web
 
