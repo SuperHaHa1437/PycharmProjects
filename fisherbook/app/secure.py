@@ -6,3 +6,4 @@ __author__ = '张'
 
 DEBUG = True
 SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:password@localhost:3306/fisher'
+SECRET_KEY = 'E92fj5J9'

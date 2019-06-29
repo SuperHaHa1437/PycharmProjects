@@ -35,7 +35,7 @@ class WeChatLogin():
 
     def exit_wechat(self):
         os.system('adb shell input tap 950 1830')  # 我
-        os.system('adb shell input tap 400 1600')  # 设置
+        os.system('adb shell input tap 400 1440')  # 设置
         os.system('adb shell input swipe 650 1600 650 1000')  # 划至顶部
         os.system('adb shell input tap 500 1800')  # 退出
         os.system('adb shell input tap 500 1700')  # 退出登陆
