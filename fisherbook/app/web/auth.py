@@ -1,8 +1,10 @@
 from . import web
+from flask import render_template
 
-@web.route('/register', methods=['GET', 'POST'])
+
+@web.route('/register')
 def register():
-    pass
+    return render_template('auth/register.html', form={'data': {}})
 
 
 @web.route('/login', methods=['GET', 'POST'])
@@ -14,6 +16,7 @@ def login():
 def forget_password_request():
     pass
 
+
 @web.route('/reset/password/<token>', methods=['GET', 'POST'])
 def forget_password(token):
     pass
@@ -22,5 +25,3 @@ def forget_password(token):
 @web.route('/change/password', methods=['GET', 'POST'])
 def change_password():
     pass
-
-

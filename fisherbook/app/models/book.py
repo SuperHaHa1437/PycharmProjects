@@ -3,12 +3,12 @@ Created by 张 on 2019/6/1
 """
 from sqlalchemy import Column, String, Integer
 
-from app.models.base import db
+from app.models.base import db,Base
 
 __author__ = '张'
 
 
-class book(db.Model):
+class book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(50), nullable=False)
     author = Column(String(30), default='未名')
