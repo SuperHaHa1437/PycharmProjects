@@ -2,12 +2,10 @@
 Created by 张 on 2019/6/1 
 """
 from sqlalchemy import Column, String, Integer
-from flask_sqlalchemy import SQLAlchemy
+
+from app.models.base import db
 
 __author__ = '张'
-
-db = SQLAlchemy()
-
 
 
 class book(db.Model):
