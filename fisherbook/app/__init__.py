@@ -2,9 +2,13 @@
 Created by 张 on 2019/4/21 
 """
 from flask import Flask
+from flask_login import LoginManager
 from app.models.book import db
 
 __author__ = '张'
+
+login_manager = LoginManager()
+
 
 def create_app():
     app = Flask(__name__)
@@ -13,7 +17,11 @@ def create_app():
     register_blueprint(app)
 
     db.init_app(app)
-    db.create_all(app=app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'web.login'
+    login_manager.login_message = '请先登录或注册'
+    with app.app_context():
+        db.create_all()
     return app
 
 
