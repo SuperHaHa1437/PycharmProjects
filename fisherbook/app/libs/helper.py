@@ -6,6 +6,8 @@ __author__ = '张'
 '''
 判断搜索字段是 isbn  还是关键字搜索
 '''
+
+
 def is_isbn_or_key(word):
     isbn_or_key = 'key'
 
