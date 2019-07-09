@@ -3,7 +3,7 @@ from app.models.base import db
 from app.models.user import User
 from . import web
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 
 @web.route('/register', methods=['GET', 'POST'])
@@ -47,3 +47,9 @@ def forget_password(token):
 @web.route('/change/password', methods=['GET', 'POST'])
 def change_password():
     pass
+
+
+@web.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('web.index'))
