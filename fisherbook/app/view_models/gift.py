@@ -28,7 +28,7 @@ class MyGifts:
             if gift.isbn == wish_count['isbn']:
                 count = wish_count['count']
         r = {
-            'wisher_count': count,
+            'wishes_count': count,
             'book': BookViewModel(gift.book),
             'id': gift.id
         }
