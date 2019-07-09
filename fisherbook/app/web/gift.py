@@ -15,7 +15,6 @@ def my_gifts():
     isbn_list = [gift.isbn for gift in gifts_of_mine]
     wish_count_list = Gift.get_wish_counts(isbn_list)
     view_model = MyGifts(gifts_of_mine, wish_count_list)
-    print('view_model.gifts',view_model.gifts)
     return render_template('my_gifts.html', gifts=view_model.gifts)
 
 
