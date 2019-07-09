@@ -8,6 +8,7 @@ from flask_login import login_required, current_user
 
 @web.route('/my/wish')
 def my_wish():
+    return 'my_wish'
     pass
 
 
