@@ -3,7 +3,7 @@ Created by 张 on 2019/6/30
 """
 from flask import current_app
 
-from app.models.wish import Wish
+
 from app.spider.yushu_book import YuShuBook
 
 __author__ = '张'
@@ -32,6 +32,7 @@ class Gift(Base):
     @classmethod
     def get_wish_counts(cls, isbn_list):
         #     根据传入的一组 isbn,到 Wish 表中计算出某个礼物的 Wish 心愿数量
+        from app.models.wish import Wish
         count_list = db.session.query(func.count(Wish.id), Wish.isbn).filter(
             Wish.launched == False,
             Wish.isbn.in_(isbn_list),

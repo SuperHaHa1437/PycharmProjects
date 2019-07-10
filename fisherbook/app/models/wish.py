@@ -1,7 +1,6 @@
 """
 Created by 张 on 2019/7/5 
 """
-from app.models.gift import Gift
 from app.spider.yushu_book import YuShuBook
 
 __author__ = '张'
@@ -27,6 +26,7 @@ class Wish(Base):
     @classmethod
     def get_gifts_counts(cls, isbn_list):
         #     根据传入的一组 isbn,到 Gift 表中计算出某个礼物的 Gift 心愿数量
+        from app.models.gift import Gift
         count_list = db.session.query(func.count(Gift.id), Gift.isbn).filter(
             Gift.launched == False,
             Gift.isbn.in_(isbn_list),
