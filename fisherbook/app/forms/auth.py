@@ -6,7 +6,7 @@ from app.models.user import User
 __author__ = '张'
 
 from wtforms import Form, StringField, IntegerField, PasswordField
-from wtforms.validators import Length, NumberRange, DataRequired, Email, ValidationError
+from wtforms.validators import Length, NumberRange, DataRequired, Email, ValidationError, EqualTo
 
 
 class RegisterForm(Form):
@@ -30,3 +30,9 @@ class LoginForm(Form):
 
 class EmailForm(Form):
     email = StringField(validators=[DataRequired(), Length(8, 64), Email(message='电子邮箱不符合规则')])
+
+
+class ResetPasswordForm(Form):
+    password1 = PasswordField(validators=[DataRequired(), Length(6, 32, message='密码长度至少需要在 6 到 32 个字符之间'),
+                                          EqualTo('password2', message='两次输入的密码不相同')])
+    password2 = PasswordField(validators=[DataRequired(), Length(6, 32)])

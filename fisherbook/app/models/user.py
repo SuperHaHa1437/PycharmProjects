@@ -1,10 +1,13 @@
 """
 Created by 张 on 2019/6/30 
 """
+from flask import current_app
+
 from app.libs.helper import is_isbn_or_key
 from app.models.gift import Gift
 from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 __author__ = '张'
 
@@ -55,6 +58,24 @@ class User(UserMixin, Base):
             return True
         else:
             return False
+
+    def generate_token(self, expiration=600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        temp = s.dumps({'id': self.id}).decode('utf-8')
+        return temp
+
+    @staticmethod
+    def reset_password(token, new_password):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        uid = data.get('id')
+        with db.auto_commit():
+            user = User.query.get(uid)
+            user.password = new_password
+        return True
 
 
 @login_manager.user_loader

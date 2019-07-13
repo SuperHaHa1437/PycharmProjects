@@ -28,3 +28,5 @@ def hello():
           http://localhost:81/book/search?q=9787501524044&page=1
           http://localhost:81/book/search?q=红楼梦&page=2
           http://localhost:81/book/search?q=9787070511209
+
+7.做忘记密码发送邮件时,测试发送邮件,邮箱需要是已经本项目服务器注册的邮箱.否则send_email 不会被执行,404 错误
