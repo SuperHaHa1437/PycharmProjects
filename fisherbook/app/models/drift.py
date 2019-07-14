@@ -1,7 +1,7 @@
 """
 Created by 张 on 2019/7/14 
 """
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, SmallInteger
 
 from app.models.base import Base
 
@@ -20,7 +20,7 @@ class Drift(Base):
     mobile = Column(String(20), nullable=False)
 
     # 书籍信息
-    isbn = Column(13)
+    isbn = Column(String(13))
     book_title = Column(String(50))
     book_author = Column(String(30))
     book_img = Column(String(50))
@@ -33,3 +33,5 @@ class Drift(Base):
     gifter_id = Column(Integer)
     gift_id = Column(Integer)
     gifter_nickname = Column(String(20))
+
+    pending = Column('pending', SmallInteger, default=1)

@@ -1,9 +1,13 @@
 """
 Created by 张 on 2019/6/30 
 """
+from math import floor
+
 from flask import current_app
 
+from app.libs.enums import PendingStatus
 from app.libs.helper import is_isbn_or_key
+from app.models.drift import Drift
 from app.models.gift import Gift
 from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
@@ -38,6 +42,13 @@ class User(UserMixin, Base):
     @password.setter
     def password(self, raw):
         self._password = generate_password_hash(raw)
+
+    def can_send_drift(self):
+        if self.beans < 1:
+            return False
+        success_gifts_count = Gift.query.filter_by(uid=self.id, launched=True).count()
+        success_receive_count = Drift.query.filter_by(requester_id=self.id, pending=PendingStatus.Success).count()
+        return True if floor(success_receive_count / 2) <= floor(success_gifts_count) else False
 
     def check_password(self, raw):
         return check_password_hash(self._password, raw)
@@ -76,6 +87,15 @@ class User(UserMixin, Base):
             user = User.query.get(uid)
             user.password = new_password
         return True
+
+    @property
+    def summary(self):
+        return dict(
+            nickname=self.nickname,
+            beans=self.beans,
+            email=self.email,
+            send_receive=str(self.send_counter) + '/' + str(self.receive_counter)
+        )
 
 
 @login_manager.user_loader

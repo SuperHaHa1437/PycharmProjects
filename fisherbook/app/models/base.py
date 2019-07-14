@@ -37,7 +37,7 @@ class Base(db.Model):
     create_time = Column('create_time', Integer)
     status = Column(SmallInteger, default=1)
 
-    def __init__(self):
+    def __init__(self) -> object:
         self.create_time = int(datetime.now().timestamp())
 
     def set_attrs(self, attrs_dict):
