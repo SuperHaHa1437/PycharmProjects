@@ -14,7 +14,7 @@ class BookViewModel:
     @property
     def intro(self):
         intros = filter(lambda x: True if x else False, [self.author, self.publisher, self.price])
-        return ' \ '.join(intros)
+        return ' / '.join(intros)
 
 
 class BookCollection:
