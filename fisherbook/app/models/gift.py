@@ -3,7 +3,6 @@ Created by 张 on 2019/6/30
 """
 from flask import current_app
 
-
 from app.spider.yushu_book import YuShuBook
 
 __author__ = '张'
@@ -23,10 +22,8 @@ class Gift(Base):
     isbn = Column(String(15), nullable=False)
     launched = Column(Boolean, default=False)
 
-
-    def is_yourself_gift(self,uid):
+    def is_yourself_gift(self, uid):
         return True if self.uid == uid else False
-
 
     @classmethod
     def get_user_gifts(cls, uid):
@@ -43,7 +40,6 @@ class Gift(Base):
             Wish.isbn.in_(isbn_list),
             Wish.status == 1).group_by(Wish.isbn).all()
         count_list = [{'count': w[0], 'isbn': w[1]} for w in count_list]
-        print('count_list:',count_list)
         return count_list
 
     @property
