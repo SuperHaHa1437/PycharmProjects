@@ -11,6 +11,7 @@ class TradeInfo:
     def __init__(self, goods):
         self.total = 0
         self.trades = []
+        self.__parse(goods)
 
     def __parse(self, goods):
         self.total = len(goods)

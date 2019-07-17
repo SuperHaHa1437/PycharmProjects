@@ -86,6 +86,7 @@ class User(UserMixin, Base):
         with db.auto_commit():
             user = User.query.get(uid)
             user.password = new_password
+            db.session.add(user)
         return True
 
     @property

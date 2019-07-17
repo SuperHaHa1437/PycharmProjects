@@ -47,9 +47,6 @@ def book_detail(isbn):
     has_in_gifts = False
     has_in_wishes = False
 
-    yushu_book = YuShuBook()
-    yushu_book.search_by_isbn(isbn)
-    book = BookViewModel(yushu_book.first)
 
     if current_user.is_authenticated:
         if Gift.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first():
@@ -57,14 +54,18 @@ def book_detail(isbn):
         if Wish.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first():
             has_in_wishes = True
 
+    yushu_book = YuShuBook()
+    yushu_book.search_by_isbn(isbn)
+    book = BookViewModel(yushu_book.first)
+
     trade_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
     trade_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
 
-    trade_wishes_model = TradeInfo(trade_wishes)
     trade_gifts_model = TradeInfo(trade_gifts)
+    trade_wishes_model = TradeInfo(trade_wishes)
 
-    return render_template('book_detail.html', book=book, wishes=trade_wishes_model, gifts=trade_gifts_model,
-                           has_in_wishes=has_in_wishes, has_in_gifts=has_in_gifts)
+    return render_template('book_detail.html', book=book, gifts=trade_gifts_model, wishes=trade_wishes_model,
+                           has_in_gifts=has_in_gifts, has_in_wishes=has_in_wishes)
 
 
 @web.route('/test')

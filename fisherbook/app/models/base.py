@@ -5,12 +5,12 @@ Created by 张 on 2019/6/30
 __author__ = '张'
 
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy as _SQLALchemy, BaseQuery
+from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import Column, Integer, SmallInteger
 from contextlib import contextmanager
 
 
-class SQLAlchemy(_SQLALchemy):
+class SQLAlchemy(_SQLAlchemy):
     @contextmanager
     def auto_commit(self):
         try:
