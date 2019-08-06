@@ -15,5 +15,5 @@ def create_app():
 
 #  注册蓝图,以便注册在蓝图上的视图函数可以注册到应用 app 中
 def register_blueprint(app):
-    from app.web.book import web
+    from app.web import web
     app.register_blueprint(web)
