@@ -8,7 +8,9 @@ __author__ = '张'
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config')
+    # 装载配置文件
+    app.config.from_object('app.setting')
+    app.config.from_object('app.secure')
     register_blueprint(app)
     return app
 
