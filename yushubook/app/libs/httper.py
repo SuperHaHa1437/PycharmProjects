@@ -6,6 +6,7 @@ __author__ = '张'
 import requests
 
 
+# 网络请求工具类
 class HTTP:
     @staticmethod
     def get(url, return_json=True):

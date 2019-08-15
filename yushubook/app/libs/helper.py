@@ -3,12 +3,14 @@ Created by 张 on 2019/7/31
 """
 __author__ = '张'
 
-'''
-判断搜索字段是 isbn  还是关键字搜索
-'''
 
 
 def is_isbn_or_key(word):
+    """
+    判断搜索字段是 isbn  还是关键字搜索
+    :param word: 搜索的关键字
+    :return:
+    """
     isbn_or_key = 'key'
 
     if len(word) == 13 and word.isdigit():
