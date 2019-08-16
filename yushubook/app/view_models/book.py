@@ -5,7 +5,43 @@ __author__ = '张'
 
 
 # 图书 book 的 viewmodel 层,用于视图函数层解析数据以返回给客户端
+# 处理yushu_book 返回的单本图书数据
 class BookViewModel:
+    def __init__(self, book):
+        self.title = book['title']
+        self.publisher = book['publisher']
+        self.author = '、'.join(book['author'])
+        self.image = book['image']
+        self.price = book['price']
+        self.summary = book['summary']
+        self.isbn = book['isbn']
+        self.pages = book['pages']
+        self.pubdate = book['pubdate']
+        self.binding = book['binding']
+
+
+# 处理 yushu_book 返回的多本图书数据集合
+class BookCollection:
+    def __init__(self):
+        """
+        初始化三个实例变量
+        """
+        self.total = 0
+        self.books = []
+        self.keyword = ''
+
+    def fill(self, yushu_book, keyword):
+        """
+        解析从 yushu_book 拿到的书籍数据,提取所需要的.
+        :param yushu_book: yushu_book 对象获取到的 API 数据
+        :param keyword: 搜索关键字
+        """
+        self.total = yushu_book.total
+        self.books = [BookViewModel(book) for book in yushu_book.books]
+        self.keyword = keyword
+
+
+class _BookViewModel:
     @classmethod
     def package_single(cls, data, keyword):
         """

@@ -44,7 +44,7 @@ class YuShuBook:
         """
         if data:
             self.total = 1
-            self.books = data['books']
+            self.books.append(data)
 
     def __fill_collection(self, data):
         """

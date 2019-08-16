@@ -5,7 +5,7 @@ from flask import Blueprint
 
 __author__ = '张'
 
-# 注册蓝图,以便视图函数可以插入到蓝图中
+# 实例化蓝图,以便视图函数可以插入到蓝图中
 web = Blueprint('web', __name__)
 
 

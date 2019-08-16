@@ -4,12 +4,11 @@ Created by 张 on 2019/7/31
 __author__ = '张'
 
 
-
 def is_isbn_or_key(word):
     """
     判断搜索字段是 isbn  还是关键字搜索
     :param word: 搜索的关键字
-    :return:
+    :return:返回判断的结果,不是关键字就是isbn
     """
     isbn_or_key = 'key'
 
