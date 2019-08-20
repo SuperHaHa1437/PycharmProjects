@@ -19,6 +19,13 @@ class BookViewModel:
         self.pubdate = book['pubdate']
         self.binding = book['binding']
 
+    # 在搜索书籍页面里，需要将每一条结果的作者，出版社，价格在一行展示，并以” / “分割。
+    # @property装饰器可以让我们把一个方法当做一个属性来使用
+    @property
+    def intro(self):
+        intros = filter(lambda x: True if x else False, [self.author, self.publisher, self.price])
+        return '/'.join(intros)
+
 
 # 处理 yushu_book 返回的多本图书数据集合
 class BookCollection:
@@ -39,6 +46,8 @@ class BookCollection:
         self.total = yushu_book.total
         self.books = [BookViewModel(book) for book in yushu_book.books]
         self.keyword = keyword
+
+
 
 
 class _BookViewModel:

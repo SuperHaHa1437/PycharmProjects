@@ -61,3 +61,10 @@ class YuShuBook:
         :return: 返回每一页的从第几个结果开始返回,比如第一页的十五个结果,从第 0 个开始也就是第一个.
         """
         return (page - 1) * current_app.config['PER_PAGE']
+
+    @property
+    def first(self):
+        """
+        :return: 返回 book 列表中的第一个数据,在 search_by_isbn 中需要
+        """
+        return self.books[0] if self.total >= 1 else None

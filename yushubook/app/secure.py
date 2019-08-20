@@ -7,3 +7,4 @@ __author__ = '张'
 DEBUG = True
 # 链接数据库
 SQLALCHEMY_DATABASE_URI = 'mysql+cymysql://root:password@localhost:3306/yushubook'
+SECRET_KEY = 'E92fj5J9' 
