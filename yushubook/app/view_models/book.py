@@ -5,7 +5,7 @@ __author__ = '张'
 
 
 # 图书 book 的 viewmodel 层,用于视图函数层解析数据以返回给客户端
-# 处理yushu_book 返回的单本图书数据
+# 具体的单一数据处理封装在BookViewModel里
 class BookViewModel:
     def __init__(self, book):
         self.title = book['title']

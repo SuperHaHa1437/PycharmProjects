@@ -17,7 +17,7 @@ def create_app():
     # 装载配置文件
     app.config.from_object('app.setting')
     app.config.from_object('app.secure')
-    # 在 flask 核心对象中注册蓝图
+    # 在 flask 核心对象中  注册蓝图
     register_blueprint(app)
 
     db.init_app(app)

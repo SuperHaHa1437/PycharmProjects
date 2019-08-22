@@ -58,7 +58,7 @@ def book_detail(isbn):
     """
     书籍详情页面,数据从 yushu_book 中拿到,因为是通过指定书籍详情页面,所以用 search_by_isbn
     通过 BookViewModel 处理 yushu_book 中的数据,只需要处理单本的数据,所以使用 BookViewModel 即可,不需要 BookCollection 处理集合数据
-    BookViewModel 处理的是 yushu_book 对象下 books 属性即列表下的第一个元素,封装到 first 方法中,用 @property 将 first 方法作为属性调用
+    BookViewModel 需要接受一个 book 对象，由于 search_by_isbn 只会返回只有一个对象的列表，所以我们返回结果的第一个元素即可
     :param isbn: 通过 isbn 跳转到指定书籍详情页面
     :return: 返回书籍详情页面
     """
