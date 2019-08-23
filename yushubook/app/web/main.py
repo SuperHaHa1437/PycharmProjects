@@ -7,7 +7,7 @@ from . import web
 
 @web.route('/')
 def index():
-    pas
+    return 'index'
 
 
 @web.route('/personal')

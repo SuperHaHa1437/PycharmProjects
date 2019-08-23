@@ -2,10 +2,13 @@
 Created by 张 on 2019/8/6 
 """
 from flask import Flask
+from flask_login import LoginManager
 
 from app.models.book import db
 
 __author__ = '张'
+
+login_manager = LoginManager()
 
 
 def create_app():
@@ -23,6 +26,12 @@ def create_app():
     db.init_app(app)
     # create_all 就是可以将业务模型创建到数据库中
     db.create_all(app=app)
+
+    login_manager.init_app(app)
+    # 让 login 插件知道登陆页面是哪个
+    login_manager.login_view = 'web.login'
+    # 登陆页面的消息闪现
+    login_manager.login_message = '请先登录或注册'
     return app
 
 
