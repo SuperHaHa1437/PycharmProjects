@@ -15,12 +15,13 @@ def register():
     form = RegisterForm(request.form)
 
     if request.method == 'POST' and form.validate():
-        user = User()
-        # 动态赋值: 将网页表单获取到的值,与模型中属性查询对应,有对应的就将其赋值给该属性
-        user.set_attrs(form.data)
-
-        db.session.add(user)
-        db.session.commit()
+        with db.auto_commit():
+            user = User()
+            # 动态赋值: 将网页表单获取到的值,与模型中属性查询对应,有对应的就将其赋值给该属性
+            user.set_attrs(form.data)
+            # 将模型对象写入数据库
+            db.session.add(user)
+        # 注册成功后跳转登录界面
         return redirect(url_for('web.login'))
     return render_template('auth/register.html', form=form)
 

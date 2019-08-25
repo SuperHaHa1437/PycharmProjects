@@ -4,11 +4,15 @@ Created by 张 on 2019/8/5
 import json
 
 from flask import Blueprint, jsonify, request, flash, render_template
+from flask_login import current_user
 
 from app.forms.bookforms import SearchForm
 from app.libs.helper import is_isbn_or_key
+from app.models.gift import Gift
+from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
 from app.view_models.book import BookViewModel, BookCollection
+from app.view_models.trade import TradeInfo
 from . import web
 
 __author__ = '张'
@@ -62,7 +66,35 @@ def book_detail(isbn):
     :param isbn: 通过 isbn 跳转到指定书籍详情页面
     :return: 返回书籍详情页面
     """
+    # 是否在礼物清单
+    has_in_gifts = False
+    # 是否在心愿清单
+    has_in_wishes = False
+
+    # 取出每本书的详情
     yushu_book = YuShuBook()
     yushu_book.search_by_isbn(isbn)
     book = BookViewModel(yushu_book.first)
-    return render_template('book_detail.html', book=book, wishes=[], gifts=[])
+
+    # 判断用户是否登录
+    if current_user.is_authenticated:
+        # 在礼物清单数据库中查询此用户id,本书 isbn,赠送状态为否,如果有查询到匹配记录
+        # 说明该用户为赠送者,has_in_gifts为 True,表示在他的礼物清单里
+        if Gift.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first():
+            has_in_gifts = True
+        # 在心愿清单数据库中查询此用户id,本书 isbn,赠送状态为否,如果有查询到匹配记录
+        # 说明该用户为索要者,has_in_wishes True,表示在他的心愿清单里
+        if Wish.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first():
+            has_in_wishes = True
+
+    # 查询所有赠送者的清单
+    trade_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
+    # 查询所有所要者的清单
+    trade_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
+
+    # 赠送和索要清单处理完数据后
+    trade_gifts_model = TradeInfo(trade_gifts)
+    trade_wishes_model = TradeInfo(trade_wishes)
+
+    return render_template('book_detail.html', book=book, wishes=trade_wishes_model, gifts=trade_gifts_model,
+                           has_in_wishes=has_in_wishes, has_in_gifts=has_in_gifts)

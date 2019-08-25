@@ -4,9 +4,14 @@ Created by 张 on 2019/8/20
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import login_manager
+from app.libs.helper import is_isbn_or_key
 from app.models.base import db, Base
 from sqlalchemy import Column, Integer, String, Boolean, Float
 from flask_login import UserMixin
+
+from app.models.gift import Gift
+from app.models.wish import Wish
+from app.spider.yushu_book import YuShuBook
 
 __author__ = '张'
 
@@ -50,6 +55,29 @@ class User(UserMixin, Base):
         :return: 检查原密码和数据库密码哈希值的结果
         """
         return check_password_hash(self._password, raw)
+
+    def can_save_to_list(self, isbn):
+        """
+        用户是否能将书籍加入心愿清单或者赠送清单
+        :param isbn: 书籍 isbn
+        :return:
+        """
+        if is_isbn_or_key(isbn) != 'isbn':
+            return False
+        yushu_book = YuShuBook()
+        yushu_book.search_by_isbn(isbn)
+        if not yushu_book.first:
+            return False
+
+        # 查询 Gift.Wish 模型,查询参数为 uid,isbn,launched
+        gifting = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
+        wishing = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
+
+        # 既不在赠送清单,也不在心愿清单才能添加
+        if not gifting and wishing:
+            return True
+        else:
+            return False
 
 
 @login_manager.user_loader
