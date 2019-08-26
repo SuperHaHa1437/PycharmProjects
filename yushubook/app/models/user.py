@@ -74,7 +74,7 @@ class User(UserMixin, Base):
         wishing = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
 
         # 既不在赠送清单,也不在心愿清单才能添加
-        if not gifting and wishing:
+        if not gifting and not wishing:
             return True
         else:
             return False

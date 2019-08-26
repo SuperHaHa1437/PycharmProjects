@@ -43,6 +43,8 @@ class Query(BaseQuery):
         return super(Query, self).filter_by(**kwargs)
 
 
+# Flask 的 SQLAlchemy 给了我们一种方法，
+# 让我们应用自己的 Query 类，即在实例化的时候传入关键字参数 query_class
 db = SQLAlchemy(query_class=Query)
 
 
