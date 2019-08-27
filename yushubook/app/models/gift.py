@@ -44,6 +44,37 @@ class Gift(Base):
             current_app.config['RECENT_BOOK_COUNT']).all()
         return recent_gift
 
+    @classmethod
+    def get_user_gift(cls, uid):
+        """
+        查询某个用户下所有的礼物
+        过滤条件: uid,launched(未交易)
+        :param uid:用户 id
+        :return:返回所有的符合查询条件的礼物模型
+        """
+        gifts = Gift.query.filter_by(uid=uid, launched=False).order_by(desc(Gift.create_time)).all()
+        return gifts
+
+    @classmethod
+    def get_wish_counts(cls, isbn_list):
+        """
+        在Gift模型中,查询对应 isbn 在心愿清单中的数量
+        :param isbn_list: Gift模型中所有 isbn 集合
+        func.count() 数量总数
+        查询条件:Wish 的总数,Wish的 isbn
+        过滤条件:未交易,Wish的 isbn 在 Gift 的 isbn_list 中,未删除
+        分组条件:Wish isbn
+        :return:isbn 对应数量字典
+        """
+        from app.models.wish import Wish
+        count_list = db.session.query(func.count(Wish.id), Wish.isbn).filter(
+            Wish.launched == False,
+            Wish.isbn.in_(isbn_list),
+            Wish.status == 1
+        ).group_by(Wish.isbn).all()
+        count_list = [{'count': w[0], 'isbn': w[1]} for w in count_list]
+        return count_list
+
     @property
     def book(self):
         """

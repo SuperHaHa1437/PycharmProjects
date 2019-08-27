@@ -51,7 +51,7 @@ db = SQLAlchemy(query_class=Query)
 class Base(db.Model):
     __abstract__ = True
     create_time = Column('create_time', Integer)
-    # 状态
+    # 删除状态, 0 为删除,默认 1 为不删除
     status = Column(SmallInteger, default=1)
 
     def __init__(self):

@@ -8,8 +8,12 @@ from . import web
 
 @web.route('/')
 def index():
+    """
+    最近的赠送礼物将显示在主页
+    :return:
+    """
     recent_gifts = Gift.recent_gift()
-    books = [[BookViewModel(gift.book)] for gift in recent_gifts]
+    books = [BookViewModel(gift.book) for gift in recent_gifts]
     return render_template('index.html', recent=books)
 
 
