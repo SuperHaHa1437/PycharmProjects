@@ -1,6 +1,8 @@
 """
 Created by 张 on 2019/8/25 
 """
+from app.view_models.book import BookViewModel
+
 __author__ = '张'
 
 
@@ -36,3 +38,31 @@ class TradeInfo:
             time=time,
             id=single.id
         )
+
+
+class MyTrades:
+    def __init__(self, trades_of_mine, trade_count_list):
+        self.trades = []
+        self.__trads_of_mine = trades_of_mine
+        self.__trade_count_list = trade_count_list
+        self.trades = self.__parse()
+
+    def __parse(self):
+        temp_trade = []
+        for trade in self.__trads_of_mine:
+            my_trade = self.__matching(trade)
+            temp_trade.append(my_trade)
+        return temp_trade
+
+    def __matching(self, trade):
+        count = 0
+        for trade_count in self.__trade_count_list:
+            if trade_count.isbn == trade_count['isbn']:
+                count = trade_count['count']
+
+        r = {
+            'wishes_count': count,
+            'book': BookViewModel(trade.book),
+            'id': trade.id
+        }
+        return r

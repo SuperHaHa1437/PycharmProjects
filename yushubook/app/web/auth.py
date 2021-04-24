@@ -66,4 +66,5 @@ def change_password():
 
 @web.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('web.index'))
